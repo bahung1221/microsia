@@ -8,20 +8,20 @@ broker.start(nats, {
 
 broker.use(function(req, res) {
   if (!req.body.name) {
-    res({
+    res.send({
       msg: 'Who are you?'
     })
   }
 })
 
 broker.subscribe('foo1', isRequestFromBar, function(req, res) {
-  res({
+  res.send({
     msg: `Hi ${req.body.name}, This is foo!`
   })
 })
 
 broker.subscribe('jihaa', function(req, res) {
-  res({
+  res.send({
     msg: 'jihaa'
   })
 })
