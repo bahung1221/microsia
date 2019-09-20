@@ -19,6 +19,7 @@ curl -i -H "Accept: application/json" "http://localhost:3000/foo/1"
 ```
 
 ### TODO:
+- IncomingRequest class
 - Streaming file
 - Next() function in subscribe function
 - Extendable service
