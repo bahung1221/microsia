@@ -23,6 +23,7 @@ app.subscribe('jihaa', function(req, res) {
 })
 
 setTimeout(() => {
+  console.log('foo2 service send request to foo service (local request)')
   app.request('foo.foo1', {body: {}})
     .then(data => console.log(data))
 }, 1000)
