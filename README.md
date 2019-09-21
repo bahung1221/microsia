@@ -20,6 +20,8 @@ curl -i -H "Accept: application/json" "http://localhost:3000/foo/1"
 
 ### TODO:
 - IncomingRequest class
+- Handle request timeout
+- Handle duplicate service name
 - Streaming file
 - Next() function in subscribe function
 - Extendable service
