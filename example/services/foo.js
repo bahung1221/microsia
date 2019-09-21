@@ -34,5 +34,5 @@ function isRequestFromBar(req, res) {
 }
 
 function getRequesterName(req) {
-  return req.body.name || req.headers.serviceName
+  return req.body.name || req.meta.serviceName
 }

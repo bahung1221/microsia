@@ -4,7 +4,7 @@ const app = broker.createService({ name: 'bar' })
 
 app.subscribe('bar', function(req, res) {
   res.send({
-    msg: `SERVICE foo2: Hi ${req.body.name || req.headers.serviceName}, This is bar!`,
+    msg: `SERVICE foo2: Hi ${req.body.name || req.meta.serviceName}, This is bar!`,
   })
 })
 
