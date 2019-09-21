@@ -1,7 +1,7 @@
 const loadServices = require('../lib/runner')
 const services = [
-  'services/foo1.js',
-  'services/foo2.js',
+  'services/foo.js',
+  'services/bar.js',
 ]
 const options = {
   transporter: 'nats',

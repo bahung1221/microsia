@@ -8,19 +8,15 @@ const broker = Broker({
     servers: ['nats://128.199.190.68:4222'],
   },
 })
-const microApp = broker.createService({ name: 'bar' })
+const microApp = broker.createService({ name: 'gateway' })
 
-expressApp.get('/foo/1', async (req, res) => {
-  let resp = await microApp.request('foo.foo1', {body: {}})
+expressApp.get('/api/foo', async (req, res) => {
+  const resp = await microApp.request('foo.foo', {})
   res.json(resp)
 })
 
-expressApp.get('/foo/2', async (req, res) => {
-  let resp = await microApp.request('foo2.foo2', {
-    body: {
-      name: 'no-one'
-    }
-  })
+expressApp.get('/api/bar', async (req, res) => {
+  const resp = await microApp.request('bar.bar', { name: 'no-one' })
   res.json(resp)
 })
 
