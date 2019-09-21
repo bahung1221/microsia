@@ -25,9 +25,10 @@ curl -i -H "Accept: application/json" "http://localhost:3000/api/bar"
 - IncomingRequest class
 - Handle request timeout
 - Handle duplicate service name
+- Api Gateway
 - Streaming file
+- Routing strategies
 - Next() function in subscribe function
-- Extendable service
 - Multi transporter in one broker (consider later)
 - Serialize (protobuf, ...)
 - Polish code
