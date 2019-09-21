@@ -18,7 +18,7 @@ node index.js
 
 Make request to ApiGateway
 ```
-curl -i -H "Accept: application/json" "http://localhost:3000/foo/1" 
+curl -i -H "Accept: application/json" "http://localhost:3000/api/bar" 
 ```
 
 ### TODO:
