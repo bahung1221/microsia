@@ -23,8 +23,7 @@ curl -i -H "Accept: application/json" "http://localhost:3000/api/bar"
 ```
 
 ### TODO:
-- Handle request timeout
-- Routing strategies
+- Middleware with route
 - Handle duplicate service name
 - Api Gateway
 - Streaming file
