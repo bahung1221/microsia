@@ -23,11 +23,10 @@ curl -i -H "Accept: application/json" "http://localhost:3000/api/bar"
 ```
 
 ### TODO:
-- Middleware with route
-- Handle duplicate service name
 - Api Gateway
+- Group route
+- Middleware with route
 - Streaming file
-- Next() function in subscribe function
 - Circuit Breaker (inside broker)
 - Nats authrorize
 - Multi transporter in one broker (consider later)
