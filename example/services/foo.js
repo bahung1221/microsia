@@ -11,7 +11,7 @@ app.use(function middleware(req, res, next) {
   next()
 })
 
-app.subscribe('foo1', isRequestFromBar, function handler(req, res, next) {
+app.subscribe('foo', isRequestFromBar, function handler(req, res, next) {
   console.log('SERVICE foo: received request from ' + getRequesterName(req))
   res.send({
     msg: `SERVICE foo: Hi ${getRequesterName(req)}, This is foo!`,
