@@ -6,6 +6,7 @@ const broker = Broker({
   transporter: 'nats',
   transporterOptions: {
     servers: ['nats://128.199.190.68:4222'],
+    timeout: 3000,
   },
 })
 const microApp = broker.createService({ name: 'gateway' })

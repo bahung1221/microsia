@@ -30,8 +30,11 @@ curl -i -H "Accept: application/json" "http://localhost:3000/api/bar"
 - Api Gateway
 - Streaming file
 - Next() function in subscribe function
+- Circuit Breaker (inside broker)
+- Nats authrorize
 - Multi transporter in one broker (consider later)
 - Serialize (protobuf, ...)
 - Polish code
-- Unit test
+- Unit test & code coverage
 - Travis CI
+- Code analytics by codacy
