@@ -23,14 +23,14 @@ describe('Main methods', function() {
     assert.ok(broker.createService)
     assert.ok(broker.subscribe)
     assert.ok(broker.publish)
-    assert.ok(broker.request)
+    assert.ok(broker.call)
   })
 
   it('Service should have main methods :)', function() {
     assert.ok(app.use)
     assert.ok(app.subscribe)
     assert.ok(app.publish)
-    assert.ok(app.request)
+    assert.ok(app.call)
   })
 
   it('Local transporter should have main methods :)', function() {
