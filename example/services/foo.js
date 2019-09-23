@@ -40,3 +40,5 @@ app.subscribe('jihaa', (req, res) => {
     msg: 'SERVICE foo: jihaa',
   })
 })
+
+module.exports = app

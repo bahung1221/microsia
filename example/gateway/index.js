@@ -30,3 +30,5 @@ expressApp.get('/api/bar', async (req, res) => {
 })
 
 expressApp.listen(port, () => console.log(`Example app listening on port ${port}!`))
+
+module.exports = microApp

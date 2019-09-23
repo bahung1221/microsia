@@ -19,3 +19,5 @@ setTimeout(() => {
   app.call('foo.foo', { data: 'secret' })
     .then((data) => console.log(data))
 }, 1000)
+
+module.exports = app
