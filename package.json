@@ -1,5 +1,5 @@
 {
-  "name": "micro",
+  "name": "microsia",
   "version": "0.0.1",
   "main": "broker.js",
   "scripts": {
@@ -18,9 +18,26 @@
       "git add"
     ]
   },
-  "author": "bahung1221@gmail.com",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/consocia/microsia.git"
+  },
+  "keywords": [
+    "microservices",
+    "microservice",
+    "micro-services",
+    "micro-service",
+    "micro",
+    "transport",
+    "nats"
+  ],
+  "author": "info@consocia.io",
   "license": "ISC",
-  "description": "",
+  "description": "Blazing fast and lightweight microservices server",
+  "bugs": {
+    "url": "https://github.com/consocia/microsia/issues"
+  },
+  "homepage": "https://github.com/consocia/microsia",
   "dependencies": {
     "eventemitter2": "^5.0.1",
     "nats": "^1.3.0"
