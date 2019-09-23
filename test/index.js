@@ -125,6 +125,33 @@ describe('#Local communicate', function() {
       bar.call('foo.test', { msg: 'this is bar' })
     })
   })
+
+  it('foo should receive modified message that was called from bar and modified by middleware (app.use)', async function() {
+    return new Promise((resolve, reject) => {
+      function middleware(req, res, next) {
+        req.body.msg = null
+        next()
+      }
+      foo.use('test', middleware)
+      foo.subscribe('test', function (req, res) {
+        if (req.body.msg === null) {
+          return resolve('OK')
+        }
+        return reject('Incorrect')
+      })
+
+      bar.call('foo.test', { msg: 'this is bar' })
+    })
+  })
+
+  it('foo should throw error by incorrect middleware (app.use)', async function() {
+    try {
+      foo.use()
+      return Promise.reject('Incorrect')
+    } catch (e) {
+      return Promise.resolve('OK')
+    }
+  })
 })
 
 describe('#base transporter', function() {
@@ -167,6 +194,24 @@ describe('#base transporter', function() {
 
     try {
       await trans.request('base.noone', { msg: 'test'}, {})
+      return Promise.reject('Incorrect')
+    } catch (e) {
+      return Promise.resolve('OK')
+    }
+  })
+
+  it('Should throw error when pass incorrect middleware to funcCompose', async function() {
+    try {
+      await trans.funcCompose(function() {})
+      return Promise.reject('Incorrect')
+    } catch (e) {
+      return Promise.resolve('OK')
+    }
+  })
+
+  it('Should throw error when pass incorrect middleware array to funcCompose', async function() {
+    try {
+      await trans.funcCompose(['not-a-function'])
       return Promise.reject('Incorrect')
     } catch (e) {
       return Promise.resolve('OK')
