@@ -35,3 +35,5 @@ curl -i -H "Accept: application/json" "http://localhost:3000/api/bar"
 - Unit test & code coverage
 - Travis CI
 - Code analytics by codacy
+- Benchmark
+- optimize
