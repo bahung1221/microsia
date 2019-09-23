@@ -127,5 +127,6 @@ curl -i -H "Accept: application/json" "http://localhost:3000/api/bar"
 - Unit test & code coverage
 - Benchmark
 - Optimize
+- Improve documentation
 - Kafka transporter
 - Multi transporter in one broker (consider later)
