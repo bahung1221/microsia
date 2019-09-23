@@ -9,7 +9,6 @@
     comma-style: [error, last],
     eol-last: [error, always],
     import/no-unresolved: off,
-    import/no-dynamic-require: off,
     indent: [error, 2, { SwitchCase: 1 }],
     global-require: off,
     linebreak-style: [error, unix],

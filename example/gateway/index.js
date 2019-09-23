@@ -5,10 +5,17 @@ const broker = require('../../broker') // Broker
 const expressApp = express()
 const port = 3000
 const microApp = broker({
-  transporter: 'nats',
-  transporterOptions: {
-    servers: ['nats://demo.nats.io:4222'],
-    timeout: 3000,
+  transporter: {
+    name: 'nats',
+    options: {
+      servers: ['nats://demo.nats.io:4222'],
+      timeout: 3000,
+      pingInterval: 120000,
+      reconnect: true,
+      reconnectTimeWait: 2000,
+      maxReconnectAttempts: 10,
+      maxRequestRetryAttempts: 3,
+    },
   },
 }).createService({ name: 'gateway' })
 
