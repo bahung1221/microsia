@@ -2,15 +2,17 @@
 const assert = require('assert')
 const Transporter = require('../lib/transporter/base')
 const broker = require('../broker')({
-  transporter: 'nats',
-  transporterOptions: {
-    servers: ['nats://demo.nats.io:4222'],
-    timeout: 3000,
-    pingInterval: 120000,
-    reconnect: true,
-    reconnectTimeWait: 2000,
-    maxReconnectAttempts: 10,
-    maxRequestRetryAttempts: 3,
+  transporter: {
+    name: 'nats',
+    options: {
+      servers: ['nats://demo.nats.io:4222'],
+      timeout: 3000,
+      pingInterval: 120000,
+      reconnect: true,
+      reconnectTimeWait: 2000,
+      maxReconnectAttempts: 10,
+      maxRequestRetryAttempts: 3,
+    },
   },
 })
 const app = broker.createService({ name: 'foo' })
