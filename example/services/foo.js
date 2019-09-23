@@ -1,3 +1,4 @@
+/* eslint-disable */
 const broker = require('../../broker') // Broker
 
 const app = broker().createService({ name: 'foo' })
