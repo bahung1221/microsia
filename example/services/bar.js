@@ -16,6 +16,6 @@ app.subscribe('bar.jihaa', (req, res) => {
 
 setTimeout(() => {
   console.log('SERVICE bar: send request to foo service (local request)')
-  app.call('foo.foo', {})
+  app.call('foo.foo', { data: 'secret' })
     .then((data) => console.log(data))
 }, 1000)
