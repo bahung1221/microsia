@@ -1,3 +1,8 @@
+[![Build Status](https://travis-ci.com/consocia/microsia.svg?branch=master)](https://travis-ci.com/consocia/microsia)
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/66aaa1373bb0454497ba5d83e7f66fda)](https://www.codacy.com/manual/bahung1221/microsia?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=consocia/microsia&amp;utm_campaign=Badge_Grade)
+[![Coverage Status](https://coveralls.io/repos/github/consocia/microsia/badge.svg?branch=master)](https://coveralls.io/github/consocia/microsia?branch=master)
+[![Dependency Status](https://david-dm.org/consocia/microsia.svg)](https://david-dm.org/consocia/microsia)
+
 # UNDER CONSTRUCTION
 This library is under construction, so use at your own risk
 
@@ -52,7 +57,7 @@ const services = [
 const options = {
   transporter: 'nats',
   transporterOptions: {
-    servers: ['nats://128.199.190.68:4222'],
+    servers: ['nats://demo.nats.io:4222'],
     timeout: 3000,
     pingInterval: 120000,
     reconnect: true,
@@ -72,7 +77,7 @@ const broker = require('microsia/broker')
 const app = broker({
   transporter: 'nats',
   transporterOptions: {
-    servers: ['nats://128.199.190.68:4222'],
+    servers: ['nats://demo.nats.io:4222'],
     timeout: 3000,
   },
 }).createService({ name: 'bar' })

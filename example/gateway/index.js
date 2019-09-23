@@ -7,7 +7,7 @@ const port = 3000
 const microApp = broker({
   transporter: 'nats',
   transporterOptions: {
-    servers: ['nats://128.199.190.68:4222'],
+    servers: ['nats://demo.nats.io:4222'],
     timeout: 3000,
   },
 }).createService({ name: 'gateway' })

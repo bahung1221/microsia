@@ -7,7 +7,7 @@ const services = [
 const options = {
   transporter: 'nats',
   transporterOptions: {
-    servers: ['nats://128.199.190.68:4222'],
+    servers: ['nats://demo.nats.io:4222'],
     timeout: 3000,
     pingInterval: 120000,
     reconnect: true,
