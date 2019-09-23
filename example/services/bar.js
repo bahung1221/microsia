@@ -1,14 +1,14 @@
-const Broker = require('../../lib/broker') // Broker
-const broker = Broker()
-const app = broker.createService({ name: 'bar' })
+const broker = require('../../broker') // Broker
 
-app.subscribe('bar', function(req, res) {
+const app = broker().createService({ name: 'bar' })
+
+app.subscribe('bar', (req, res) => {
   res.send({
-    msg: `SERVICE foo2: Hi ${req.body.name || req.meta.serviceName}, This is bar!`,
+    msg: `SERVICE bar: Hi ${req.body.name || req.meta.serviceName}, This is bar!`,
   })
 })
 
-app.subscribe('bar.jihaa', function(req, res) {
+app.subscribe('bar.jihaa', (req, res) => {
   res.send({
     msg: 'SERVICE bar: jihaa 2',
   })
@@ -17,5 +17,5 @@ app.subscribe('bar.jihaa', function(req, res) {
 setTimeout(() => {
   console.log('SERVICE bar: send request to foo service (local request)')
   app.request('foo.foo', {})
-    .then(data => console.log(data))
+    .then((data) => console.log(data))
 }, 1000)

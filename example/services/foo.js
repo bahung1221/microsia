@@ -1,30 +1,10 @@
-const Broker = require('../../lib/broker') // Broker
-const broker = Broker()
-const app = broker.createService({ name: 'foo' })
+const broker = require('../../broker') // Broker
 
-app.use(function middleware(req, res, next) {
-  if (!getRequesterName(req)) {
-    res.send({
-      msg: 'SERVICE foo: Who are you?',
-    })
-  }
-  next()
-})
+const app = broker().createService({ name: 'foo' })
 
-app.subscribe('foo', isRequestFromBar, function handler(req, res, next) {
-  console.log('SERVICE foo: received request from ' + getRequesterName(req))
-  res.send({
-    msg: `SERVICE foo: Hi ${getRequesterName(req)}, This is foo!`,
-  })
-  next()
-})
-
-app.subscribe('jihaa', function(req, res) {
-  console.log('SERVICE foo: received request from ' + getRequesterName(req))
-  res.send({
-    msg: 'SERVICE foo: jihaa',
-  })
-})
+function getRequesterName(req) {
+  return req.body.name || req.meta.serviceName
+}
 
 // Middleware
 function isRequestFromBar(req, res, next) {
@@ -36,6 +16,26 @@ function isRequestFromBar(req, res, next) {
   next()
 }
 
-function getRequesterName(req) {
-  return req.body.name || req.meta.serviceName
-}
+app.use((req, res, next) => {
+  if (!getRequesterName(req)) {
+    res.send({
+      msg: 'SERVICE foo: Who are you?',
+    })
+  }
+  next()
+})
+
+app.subscribe('foo', isRequestFromBar, (req, res, next) => {
+  console.log(`SERVICE foo: received request from ${getRequesterName(req)}`)
+  res.send({
+    msg: `SERVICE foo: Hi ${getRequesterName(req)}, This is foo!`,
+  })
+  next()
+})
+
+app.subscribe('jihaa', (req, res) => {
+  console.log(`SERVICE foo: received request from ${getRequesterName(req)}`)
+  res.send({
+    msg: 'SERVICE foo: jihaa',
+  })
+})

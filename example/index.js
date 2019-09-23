@@ -1,4 +1,5 @@
-const loadServices = require('../lib/runner')
+const loadServices = require('../runner')
+
 const services = [
   'services/foo.js',
   'services/bar.js',

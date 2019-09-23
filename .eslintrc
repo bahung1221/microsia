@@ -16,6 +16,7 @@
     max-len: [warn, { code: 80, ignoreComments: true}],
     max-lines: [warn, 300],
     max-lines-per-function: [warn, 20],
+    no-await-in-loop: off,
     no-console: warn,
     no-plusplus: off,
     no-underscore-dangle: off,

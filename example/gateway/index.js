@@ -1,15 +1,15 @@
 const express = require('express')
+const broker = require('../../broker') // Broker
+
 const expressApp = express()
 const port = 3000
-const Broker = require('../../lib/broker') // Broker
-const broker = Broker({
+const microApp = broker({
   transporter: 'nats',
   transporterOptions: {
     servers: ['nats://128.199.190.68:4222'],
     timeout: 3000,
   },
-})
-const microApp = broker.createService({ name: 'gateway' })
+}).createService({ name: 'gateway' })
 
 expressApp.get('/api/foo', async (req, res) => {
   const resp = await microApp.request('foo.foo', {})
