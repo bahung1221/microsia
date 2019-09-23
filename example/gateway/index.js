@@ -20,12 +20,12 @@ const microApp = broker({
 }).createService({ name: 'gateway' })
 
 expressApp.get('/api/foo', async (req, res) => {
-  const resp = await microApp.request('foo.foo', {})
+  const resp = await microApp.call('foo.foo', {})
   res.json(resp)
 })
 
 expressApp.get('/api/bar', async (req, res) => {
-  const resp = await microApp.request('bar.bar', { name: 'no-one' })
+  const resp = await microApp.call('bar.bar', { name: 'no-one' })
   res.json(resp)
 })
 

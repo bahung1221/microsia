@@ -27,7 +27,7 @@ yarn add microsia
 
 Sample service `services/bar.js`:
 ```javascript
-const broker = require('microsia/broker') // Broker
+const broker = require('microsia')
 const app = broker().createService({ name: 'bar' })
 
 app.use(function (req, res, next) {
@@ -41,7 +41,7 @@ app.subscribe('bar', function(req, res) {
   })
 })
 
-app.request('foo.foo', {})
+app.call('foo.foo', {})
     .then(data => console.log(data))
 ```
 
@@ -73,7 +73,7 @@ loadServices(options, services)
 ```
 
 You also can run only one service directly by `node`,
-just pass config to `Broker()` and then run `node services/bar.js`:
+just pass config to `broker()` and then run `node services/bar.js`:
 ```javascript
 const broker = require('microsia/broker')
 const app = broker({
@@ -125,8 +125,6 @@ curl -i -H "Accept: application/json" "http://localhost:3000/api/bar"
 - Serialize (protobuf, ...)
 - Polish code
 - Unit test & code coverage
-- Travis CI
-- Code analytics by codacy
 - Benchmark
 - Optimize
 - Kafka transporter
