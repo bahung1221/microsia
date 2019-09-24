@@ -124,7 +124,6 @@ curl -i -H "Accept: application/json" "http://localhost:3000/api/bar"
 ```
 
 ### TODO:
-- Context (combine request & response) for distributed tracing purpose
 - Api Gateway
 - Group route
 - Middleware with route
@@ -136,6 +135,6 @@ curl -i -H "Accept: application/json" "http://localhost:3000/api/bar"
 - Unit test & code coverage
 - Benchmark
 - Optimize
-- Improve documentation
+- Improve documentation & example
 - Kafka transporter
 - Multi transporter in one broker (consider later)
