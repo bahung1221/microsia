@@ -1,7 +1,7 @@
 /* eslint-disable */
 const broker = require('../../broker') // Broker
 
-const app = broker().createService({ name: 'foo' })
+const service = broker().createService({ name: 'foo' })
 
 function getRequesterName(req) {
   return req.body.name || req.meta.serviceName
@@ -17,7 +17,7 @@ function isRequestFromBar(req, res, next) {
   next()
 }
 
-app.use((req, res, next) => {
+service.use((req, res, next) => {
   if (!getRequesterName(req)) {
     res.send({
       msg: 'SERVICE foo: Who are you?',
@@ -26,19 +26,20 @@ app.use((req, res, next) => {
   next()
 })
 
-app.subscribe('foo', isRequestFromBar, (req, res, next) => {
+service.subscribe('foo', isRequestFromBar, (req, res, next) => {
   console.log(`SERVICE foo: received request from ${getRequesterName(req)}`)
+  res.setStatus(304)
   res.send({
     msg: `SERVICE foo: Hi ${getRequesterName(req)}, This is foo!`,
   })
   next()
 })
 
-app.subscribe('jihaa', (req, res) => {
+service.subscribe('jihaa', (req, res) => {
   console.log(`SERVICE foo: received request from ${getRequesterName(req)}`)
   res.send({
     msg: 'SERVICE foo: jihaa',
   })
 })
 
-module.exports = app
+module.exports = service

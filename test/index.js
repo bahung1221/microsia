@@ -80,12 +80,61 @@ describe('#Local communicate', function() {
     })
   })
 
-  it('foo should receive message that was called from bar', async function() {
-    foo.subscribe('test', function (req, res) {
+  it('foo should response message back to bar', async function() {
+    foo.subscribe('test1', function (req, res) {
       res.send({ msg: 'this is foo!' })
     })
-    const res = await bar.call('foo.test')
-    if (res.msg) {
+    const res = await bar.call('foo.test1')
+    if (res.body.msg) {
+      return Promise.resolve('OK')
+    }
+    return Promise.reject('Incorrect')
+  })
+
+  it('foo should response status 200 back to bar', async function() {
+    foo.subscribe('test2', function (req, res) {
+      res.send({ msg: 'this is foo!' })
+    })
+    const res = await bar.call('foo.test2', {})
+    if (res.status === 200) {
+      return Promise.resolve('OK')
+    }
+    return Promise.reject('Incorrect')
+  })
+
+  it('foo should response status 304 back to bar', async function() {
+    foo.subscribe('test3', function (req, res) {
+      res.setStatus(304)
+      res.send({ msg: 'this is foo!' })
+    })
+    const res = await bar.call('foo.test3', {})
+    if (res.status === 304) {
+      return Promise.resolve('OK')
+    }
+    return Promise.reject('Incorrect')
+  })
+
+  it('foo should response header back to bar', async function() {
+    foo.subscribe('test4', function (req, res) {
+      res.setHeader('status', 'ok')
+      res.send({ msg: 'this is foo!' })
+    })
+    const res = await bar.call('foo.test4', {})
+    if (res.headers.status === 'ok') {
+      return Promise.resolve('OK')
+    }
+    return Promise.reject('Incorrect')
+  })
+
+  it('foo should response header back to bar', async function() {
+    foo.subscribe('test5', function (req, res) {
+      res.setHeader({
+        status: 'ok'
+      })
+      res.send({ msg: 'this is foo!' })
+    })
+    const res = await bar.call('foo.test5', {})
+    if (res.headers.status === 'ok') {
       return Promise.resolve('OK')
     }
     return Promise.reject('Incorrect')
@@ -99,6 +148,7 @@ describe('#Local communicate', function() {
       }
       foo.subscribe('test', middleware, function (req, res) {
         if (req.body.msg === null) {
+          res.send('OK')
           return resolve('OK')
         }
         return reject('Incorrect')
@@ -181,7 +231,7 @@ describe('#base transporter', function() {
       trans.subscribe('base.test', [handler])
       trans.request('base.test', { msg: 'test'}, {})
         .then(res => {
-          if (res.msg) {
+          if (res.body.msg) {
             return resolve('OK')
           }
           return reject('Incorrect')
@@ -247,7 +297,7 @@ describe('#Nats transporter', function() {
       nats.subscribe('nats.test', [handler])
       nats.request('nats.test', { msg: 'test'}, {})
         .then(res => {
-          if (res.msg) {
+          if (res.body.msg) {
             return resolve('OK')
           }
           return reject('Incorrect')

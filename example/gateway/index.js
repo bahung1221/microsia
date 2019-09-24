@@ -4,7 +4,7 @@ const broker = require('../../broker') // Broker
 
 const expressApp = express()
 const port = 3000
-const microApp = broker({
+const service = broker({
   transporter: {
     name: 'nats',
     options: {
@@ -20,15 +20,15 @@ const microApp = broker({
 }).createService({ name: 'gateway' })
 
 expressApp.get('/api/foo', async (req, res) => {
-  const resp = await microApp.call('foo.foo', {})
+  const resp = await service.call('foo.foo', {})
   res.json(resp)
 })
 
 expressApp.get('/api/bar', async (req, res) => {
-  const resp = await microApp.call('bar.bar', { name: 'no-one' })
+  const resp = await service.call('bar.bar', { name: 'no-one' })
   res.json(resp)
 })
 
 expressApp.listen(port, () => console.log(`Example app listening on port ${port}!`))
 
-module.exports = microApp
+module.exports = service
