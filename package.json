@@ -1,6 +1,6 @@
 {
   "name": "microsia",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "main": "broker.js",
   "scripts": {
     "lint": "eslint ./lib --fix",
@@ -33,7 +33,7 @@
   ],
   "author": "info@consocia.io",
   "license": "ISC",
-  "description": "Blazing fast and lightweight microservices server",
+  "description": "Blazing fast, minimalist and unopinionated microservices library for nodejs",
   "bugs": {
     "url": "https://github.com/consocia/microsia/issues"
   },
