@@ -38,9 +38,7 @@ describe('#Main methods and init', function() {
   })
 
   it('Local transporter should have main methods :)', function() {
-    assert.ok(Transporter.makeOutgoingRequest)
-    assert.ok(Transporter.makeOutgoingResponse)
-    assert.ok(Transporter.makeIncomingRequest)
+    assert.ok(Transporter.createOutgoingRequest)
     assert.ok(broker.localTransporter.handleImcomingRequest)
     assert.ok(broker.localTransporter.funcCompose)
     assert.ok(broker.localTransporter.connect)
@@ -81,8 +79,8 @@ describe('#Local communicate', function() {
   })
 
   it('foo should response message back to bar', async function() {
-    foo.subscribe('test1', function (req, res) {
-      res.send({ msg: 'this is foo!' })
+    foo.subscribe('test1', function (ctx) {
+      ctx.res.send({ msg: 'this is foo!' })
     })
     const res = await bar.call('foo.test1')
     if (res.body.msg) {
@@ -92,8 +90,8 @@ describe('#Local communicate', function() {
   })
 
   it('foo should response status 200 back to bar', async function() {
-    foo.subscribe('test2', function (req, res) {
-      res.send({ msg: 'this is foo!' })
+    foo.subscribe('test2', function (ctx) {
+      ctx.res.send({ msg: 'this is foo!' })
     })
     const res = await bar.call('foo.test2', {})
     if (res.status === 200) {
@@ -103,9 +101,9 @@ describe('#Local communicate', function() {
   })
 
   it('foo should response status 304 back to bar', async function() {
-    foo.subscribe('test3', function (req, res) {
-      res.setStatus(304)
-      res.send({ msg: 'this is foo!' })
+    foo.subscribe('test3', function (ctx) {
+      ctx.res.setStatus(304)
+      ctx.res.send({ msg: 'this is foo!' })
     })
     const res = await bar.call('foo.test3', {})
     if (res.status === 304) {
@@ -115,9 +113,9 @@ describe('#Local communicate', function() {
   })
 
   it('foo should response header back to bar', async function() {
-    foo.subscribe('test4', function (req, res) {
-      res.setHeader('status', 'ok')
-      res.send({ msg: 'this is foo!' })
+    foo.subscribe('test4', function (ctx) {
+      ctx.res.setHeader('status', 'ok')
+      ctx.res.send({ msg: 'this is foo!' })
     })
     const res = await bar.call('foo.test4', {})
     if (res.headers.status === 'ok') {
@@ -127,11 +125,11 @@ describe('#Local communicate', function() {
   })
 
   it('foo should response header back to bar', async function() {
-    foo.subscribe('test5', function (req, res) {
-      res.setHeader({
+    foo.subscribe('test5', function (ctx) {
+      ctx.res.setHeader({
         status: 'ok'
       })
-      res.send({ msg: 'this is foo!' })
+      ctx.res.send({ msg: 'this is foo!' })
     })
     const res = await bar.call('foo.test5', {})
     if (res.headers.status === 'ok') {
@@ -142,55 +140,75 @@ describe('#Local communicate', function() {
 
   it('foo should receive modified message that was called from bar and modified by middleware', async function() {
     return new Promise((resolve, reject) => {
-      function middleware(req, res, next) {
-        req.body.msg = null
+      function middleware(ctx, next) {
+        ctx.req.body.msg = null
         next()
       }
-      foo.subscribe('test', middleware, function (req, res) {
-        if (req.body.msg === null) {
-          res.send('OK')
+      foo.subscribe('test6', middleware, function (ctx) {
+        if (ctx.req.body.msg === null) {
+          ctx.res.send('OK')
           return resolve('OK')
         }
         return reject('Incorrect')
       })
 
-      bar.call('foo.test', { msg: 'this is bar' })
+      bar.call('foo.test6', { msg: 'this is bar' })
     })
   })
 
   it('foo should receive modified message that was called from bar and modified by middleware (app.use)', async function() {
     return new Promise((resolve, reject) => {
-      function middleware(req, res, next) {
-        req.body.msg = null
+      function middleware(ctx, next) {
+        ctx.req.body.msg = null
         next()
       }
       foo.use(middleware)
-      foo.subscribe('test', function (req, res) {
-        if (req.body.msg === null) {
+      foo.subscribe('test7', function (ctx) {
+        if (ctx.req.body.msg === null) {
+          ctx.res.send('OK')
           return resolve('OK')
         }
         return reject('Incorrect')
       })
 
-      bar.call('foo.test', { msg: 'this is bar' })
+      bar.call('foo.test7', { msg: 'this is bar' })
+    })
+  })
+
+  it('foo should receive when call by ctx', async function() {
+    return new Promise((resolve, reject) => {
+      bar.subscribe('test8', function (ctx) {
+        ctx.res.send('OK')
+      })
+      foo.subscribe('test8', async function (ctx) {
+        const res = await ctx.call('bar.test8')
+        if (res.body === 'OK') {
+          ctx.res.send('OK')
+          return resolve('OK')
+        }
+        return reject('Incorrect')
+      })
+
+      bar.call('foo.test8', { msg: 'this is bar' })
     })
   })
 
   it('foo should receive modified message that was called from bar and modified by middleware (app.use)', async function() {
     return new Promise((resolve, reject) => {
-      function middleware(req, res, next) {
-        req.body.msg = null
+      function middleware(ctx, next) {
+        ctx.req.body.msg = null
         next()
       }
-      foo.use('test', middleware)
-      foo.subscribe('test', function (req, res) {
-        if (req.body.msg === null) {
+      foo.use('test9', middleware)
+      foo.subscribe('test9', function (ctx) {
+        if (ctx.req.body.msg === null) {
+          ctx.res.send('OK')
           return resolve('OK')
         }
         return reject('Incorrect')
       })
 
-      bar.call('foo.test', { msg: 'this is bar' })
+      bar.call('foo.test9', { msg: 'this is bar' })
     })
   })
 
@@ -209,8 +227,8 @@ describe('#base transporter', function() {
 
   it('Should received local message', async function() {
     return new Promise((resolve, reject) => {
-      const handler = (req, res) => {
-        if (req.body.msg) {
+      const handler = (ctx) => {
+        if (ctx.req.body.msg) {
           return resolve('OK')
         }
         return reject('Incorrect')
@@ -222,11 +240,11 @@ describe('#base transporter', function() {
 
   it('Should received local message and sent response back to caller', async function() {
     return new Promise((resolve, reject) => {
-      const handler = (req, res) => {
-        if (req.body.msg) {
-          return res.send({ msg: 'OK' })
+      const handler = (ctx) => {
+        if (ctx.req.body.msg) {
+          return ctx.res.send({ msg: 'OK' })
         }
-        res.send({ msg: null })
+        ctx.res.send({ msg: null })
       }
       trans.subscribe('base.test', [handler])
       trans.request('base.test', { msg: 'test'}, {})
@@ -275,8 +293,8 @@ describe('#Nats transporter', function() {
 
   it('Should received nats message', async function() {
     return new Promise((resolve, reject) => {
-      const handler = (req, res) => {
-        if (req.body.msg) {
+      const handler = (ctx) => {
+        if (ctx.req.body.msg) {
           return resolve('OK')
         }
         return reject('Incorrect')
@@ -288,11 +306,11 @@ describe('#Nats transporter', function() {
 
   it('Should received nats message and sent response back to caller', async function() {
     return new Promise((resolve, reject) => {
-      const handler = (req, res) => {
-        if (req.body.msg) {
-          return res.send({ msg: 'OK' })
+      const handler = (ctx) => {
+        if (ctx.req.body.msg) {
+          return ctx.res.send({ msg: 'OK' })
         }
-        res.send({ msg: null })
+        ctx.res.send({ msg: null })
       }
       nats.subscribe('nats.test', [handler])
       nats.request('nats.test', { msg: 'test'}, {})

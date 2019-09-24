@@ -30,14 +30,22 @@ Sample service `services/bar.js`:
 const broker = require('microsia')
 const service = broker().createService({ name: 'bar' })
 
-service.use(function (req, res, next) {
+service.use(function (ctx, next) {
   console.log('bar was called')
   next()
 })
 
-service.subscribe('bar', function(req, res) {
-  res.send({
+service.subscribe('bar', function(ctx) {
+  ctx.res.send({
     msg: `SERVICE bar: Hi, This is bar!`,
+  })
+})
+
+service.subscribe('call-to-other', async function(ctx) {
+  const res = await ctx.call('baz.status')
+  ctx.res.send({
+    msg: `SERVICE bar: Status of baz`,
+    data: res.body,
   })
 })
 
@@ -116,6 +124,7 @@ curl -i -H "Accept: application/json" "http://localhost:3000/api/bar"
 ```
 
 ### TODO:
+- Context (combine request & response) for distributed tracing purpose
 - Api Gateway
 - Group route
 - Middleware with route

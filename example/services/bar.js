@@ -2,14 +2,14 @@ const broker = require('../../broker') // Broker
 
 const service = broker().createService({ name: 'bar' })
 
-service.subscribe('bar', (req, res) => {
-  res.send({
-    msg: `SERVICE bar: Hi ${req.body.name || req.meta.serviceName}, This is bar!`,
+service.subscribe('bar', (ctx, next) => {
+  ctx.res.send({
+    msg: `SERVICE bar: Hi ${ctx.req.body.name || ctx.req.meta.serviceName}, This is bar!`,
   })
 })
 
-service.subscribe('bar.jihaa', (req, res) => {
-  res.send({
+service.subscribe('bar.jihaa', (ctx, next) => {
+  ctx.res.send({
     msg: 'SERVICE bar: jihaa 2',
   })
 })
