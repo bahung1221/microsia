@@ -49,6 +49,7 @@ service.subscribe('call-to-other', async function(ctx) {
   })
 })
 
+// Call directly from service will auto 
 service.call('foo.foo', {})
     .then(data => console.log(data))
 ```
