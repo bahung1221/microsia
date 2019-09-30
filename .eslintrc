@@ -4,6 +4,7 @@
   extends: airbnb,
   parserOptions: { ecmaVersion: 2017 },
   rules: {
+    arrow-parens: [error, as-needed],
     class-methods-use-this: warn,
     comma-dangle: [error, always-multiline],
     comma-style: [error, last],
