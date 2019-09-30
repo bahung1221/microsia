@@ -132,6 +132,7 @@ curl -i -H "Accept: application/json" "http://localhost:3000/api/bar"
 - Middleware with route
 - Streaming file
 - Circuit Breaker (inside broker)
+- Logger
 - Nats authrorize
 - Serialize (protobuf, ...)
 - Polish code
