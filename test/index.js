@@ -195,11 +195,10 @@ describe('#Local communicate', function() {
 
   it('foo should receive modified message that was called from bar and modified by middleware (app.use)', async function() {
     return new Promise((resolve, reject) => {
-      function middleware(ctx, next) {
+      foo.use(function (ctx, next) {
         ctx.req.body.msg = null
         next()
-      }
-      foo.use('test9', middleware)
+      })
       foo.subscribe('test9', function (ctx) {
         if (ctx.req.body.msg === null) {
           ctx.res.send('OK')
