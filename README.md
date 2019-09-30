@@ -7,7 +7,7 @@
 This library is under construction, so use at your own risk
 
 ### Why microsia?
-Microsia is lightweight microservices server with simple, familiar syntax that was inspired by [koa](https://github.com/koajs/koa) and [express](https://github.com/expressjs/express),
+Microsia is an lightweight microservices server with simple, familiar syntax that was inspired by [koa](https://github.com/koajs/koa) and [express](https://github.com/expressjs/express),
 allow you create transport layer for microservices as quick as possible.
 
 Currently, microsia is building around [nats](https://github.com/nats-io/nats-server) as central messaging system.
@@ -41,6 +41,8 @@ service.subscribe('bar', function(ctx) {
   })
 })
 
+// Call to other service using current context
+// Metadata (requestId,...) will be past to other service, too
 service.subscribe('call-to-other', async function(ctx) {
   const res = await ctx.call('baz.status')
   ctx.res.send({
@@ -49,7 +51,7 @@ service.subscribe('call-to-other', async function(ctx) {
   })
 })
 
-// Call directly from service will auto 
+// Call directly from service will create new context
 service.call('foo.foo', {})
     .then(data => console.log(data))
 ```
