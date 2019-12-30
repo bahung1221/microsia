@@ -8,7 +8,7 @@ This library is under construction, so use at your own risk
 
 ### Why microsia?
 Microsia is an lightweight microservices server with simple, familiar syntax that was inspired by [koa](https://github.com/koajs/koa) and [express](https://github.com/expressjs/express),
-allow you create transport layer for microservices as quick as possible.
+allow you to create transport layer for microservices as quick as possible.
 
 Currently, microsia is building around [nats](https://github.com/nats-io/nats-server) as central messaging system.
 Microsia also has local pubsub system, that allow services on same server communicate with each other fastest without remote messaging system (nats).
